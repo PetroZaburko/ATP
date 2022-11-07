@@ -58,6 +58,11 @@ class User extends Authenticatable
         return Str::ucfirst($value);
     }
 
+    public function buses()
+    {
+        return $this->hasMany(Bus::class);
+    }
+
     public function delete()
     {
         SendUserDeletedEmailJob::dispatch($this);

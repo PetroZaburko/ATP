@@ -12,4 +12,9 @@ class Brand extends Model
     protected $fillable = [
         'brand'
     ];
+
+    public function buses()
+    {
+        return $this->hasMany(Bus::class);
+    }
 }

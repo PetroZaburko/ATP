@@ -6,7 +6,7 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Str;
 
-class Buses extends Model
+class Bus extends Model
 {
     use HasFactory;
 
@@ -19,5 +19,15 @@ class Buses extends Model
     public function setNumberAttribute($value)
     {
         return Str::upper($value);
+    }
+
+    public function user()
+    {
+        return $this->belongsTo(User::class);
+    }
+
+    public function brand()
+    {
+        return $this->belongsTo(Brand::class);
     }
 }
