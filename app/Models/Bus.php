@@ -18,7 +18,7 @@ class Bus extends Model
 
     public function setNumberAttribute($value)
     {
-        return Str::upper($value);
+        $this->attributes['number'] = Str::upper($value);
     }
 
     public function user()

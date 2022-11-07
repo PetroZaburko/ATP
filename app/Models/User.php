@@ -5,7 +5,6 @@ namespace App\Models;
 use App\Jobs\SendUserDeletedEmailJob;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\SoftDeletes;
-use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Support\Str;
 use Laravel\Sanctum\HasApiTokens;
@@ -50,7 +49,7 @@ class User extends \TCG\Voyager\Models\User
 
     public function setNameAttribute($value)
     {
-        return Str::lower($value);
+        $this->attributes['name'] = Str::lower($value);
     }
 
     public function getNameAttribute($value)

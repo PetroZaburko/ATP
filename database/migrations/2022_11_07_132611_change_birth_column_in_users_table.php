@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class SetNullBusesIdAfterDeletingUserInBusesTable extends Migration
+class ChangeBirthColumnInUsersTable extends Migration
 {
     /**
      * Run the migrations.
@@ -14,13 +14,9 @@ class SetNullBusesIdAfterDeletingUserInBusesTable extends Migration
     public function up()
     {
         Schema::table(
-            'buses',
+            'users',
             function (Blueprint $table) {
-                $table->foreignId('user_id')
-                    ->nullable()->change()
-                    ->constrained("users")
-                    ->cascadeOnUpdate()
-                    ->nullOnDelete();
+                $table->date('birth')->nullable()->change();
             }
         );
     }
@@ -33,9 +29,9 @@ class SetNullBusesIdAfterDeletingUserInBusesTable extends Migration
     public function down()
     {
         Schema::table(
-            'buses',
+            'users',
             function (Blueprint $table) {
-                $table->bigInteger('user_id')->nullable()->change();
+                $table->decimal('birth')->nullable();
             }
         );
     }
