@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Jobs\SendUserDeletedEmailJob;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Foundation\Auth\User as Authenticatable;
@@ -55,5 +56,11 @@ class User extends Authenticatable
     public function getNameAttribute($value)
     {
         return Str::ucfirst($value);
+    }
+
+    public function delete()
+    {
+        SendUserDeletedEmailJob::dispatch($this);
+        return parent::delete();
     }
 }
