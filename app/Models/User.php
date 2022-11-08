@@ -47,6 +47,10 @@ class User extends \TCG\Voyager\Models\User
         'email_verified_at' => 'datetime',
     ];
 
+    public $additional_attributes = [
+        'full_name'
+    ];
+
     public function setNameAttribute($value)
     {
         $this->attributes['name'] = Str::lower($value);
@@ -55,6 +59,11 @@ class User extends \TCG\Voyager\Models\User
     public function getNameAttribute($value)
     {
         return Str::ucfirst($value);
+    }
+
+    public function getFullNameAttribute()
+    {
+        return "{$this->surname} {$this->name}";
     }
 
     public function buses()
