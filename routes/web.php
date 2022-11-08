@@ -19,4 +19,5 @@ Route::get('/', function () {
 
 Route::group(['prefix' => 'admin'], function () {
     Voyager::routes();
+    Route::get('users', ['uses' => 'App\\Http\\Controllers\\Voyager\\VoyagerUserController@index', 'as' => 'voyager.users.index']);
 });

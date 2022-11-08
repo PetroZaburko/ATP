@@ -13,6 +13,8 @@ class Brand extends Model
         'brand'
     ];
 
+    protected $perPage = 20;
+
     public function buses()
     {
         return $this->hasMany(Bus::class);

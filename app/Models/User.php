@@ -51,6 +51,8 @@ class User extends \TCG\Voyager\Models\User
         'full_name'
     ];
 
+    protected $perPage = 20;
+
     public function setNameAttribute($value)
     {
         $this->attributes['name'] = Str::lower($value);

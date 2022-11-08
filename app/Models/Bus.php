@@ -16,6 +16,8 @@ class Bus extends Model
         'user_id'
     ];
 
+    protected $perPage = 20;
+
     public function setNumberAttribute($value)
     {
         $this->attributes['number'] = Str::upper($value);
