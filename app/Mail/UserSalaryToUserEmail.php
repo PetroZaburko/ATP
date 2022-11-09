@@ -3,11 +3,12 @@
 namespace App\Mail;
 
 use App\Models\User;
+use Carbon\Carbon;
 use Illuminate\Bus\Queueable;
 use Illuminate\Mail\Mailable;
 use Illuminate\Queue\SerializesModels;
 
-class UserDeletedToAdminEmail extends Mailable
+class UserSalaryToUserEmail extends Mailable
 {
     use Queueable, SerializesModels;
 
@@ -30,12 +31,12 @@ class UserDeletedToAdminEmail extends Mailable
      */
     public function build()
     {
-        return $this->view('mails.user_deleted_to_admin')
-            ->subject('User deleted from '.env('APP_NAME'))
+        return $this->view('mails.user_salary')
+            ->subject('Info about your salary')
             ->with(
                 [
-                    'user' => $this->user,
-                    'buses' => $this->user->buses->implode('number', ', '),
+                    'salary' => $this->user->salary,
+                    'month' => Carbon::now()->addMonth()->getTranslatedMonthName('Do MMMM'),
                 ]
             );
     }
