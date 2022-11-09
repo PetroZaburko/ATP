@@ -2,7 +2,7 @@
 
 namespace App\Jobs;
 
-use App\Mail\UserDeletedEmail;
+use App\Mail\UserDeletedToUserEmail;
 use App\Models\User;
 use Illuminate\Bus\Queueable;
 use Illuminate\Contracts\Queue\ShouldQueue;
@@ -11,7 +11,7 @@ use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Queue\SerializesModels;
 use Illuminate\Support\Facades\Mail;
 
-class SendUserDeletedEmailJob implements ShouldQueue
+class SendEmailUserOnUserDeletedJob implements ShouldQueue
 {
     use Dispatchable, InteractsWithQueue, Queueable, SerializesModels;
 
@@ -34,7 +34,7 @@ class SendUserDeletedEmailJob implements ShouldQueue
      */
     public function handle()
     {
-        $message = (new UserDeletedEmail($this->user))->onConnection('redis')->onQueue('emails');
-        Mail::to($this->user)->later(now()->addDay(), $message);
+        $message = (new UserDeletedToUserEmail($this->user))->onConnection('redis')->onQueue('emails');
+        Mail::to($this->user)->send($message);
     }
 }

@@ -2,10 +2,12 @@
 
 namespace App\Models;
 
-use App\Jobs\SendUserDeletedEmailJob;
+use App\Jobs\SendEmailUserOnUserDeletedJob;
+use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Notifications\Notifiable;
+use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Str;
 use Laravel\Sanctum\HasApiTokens;
 
@@ -75,7 +77,13 @@ class User extends \TCG\Voyager\Models\User
 
     public function delete()
     {
-        SendUserDeletedEmailJob::dispatch($this);
+        SendEmailUserOnUserDeletedJob::dispatch($this)->delay(Carbon::now()->addDay());
+        Storage::disk('public')->delete($this->avatar);
         return parent::delete();
+    }
+
+    public function checkAgeAbility()
+    {
+        return Carbon::parse($this->birth)->age <= config('atp.max_working_age');
     }
 }

@@ -4,11 +4,10 @@ namespace App\Mail;
 
 use App\Models\User;
 use Illuminate\Bus\Queueable;
-use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Mail\Mailable;
 use Illuminate\Queue\SerializesModels;
 
-class UserDeletedEmail extends Mailable
+class UserDeletedToUserEmail extends Mailable
 {
     use Queueable, SerializesModels;
 
@@ -31,10 +30,12 @@ class UserDeletedEmail extends Mailable
      */
     public function build()
     {
-        return $this->view('mails.register')
-            ->subject('User deleted from ' . env('APP_NAME'))
-            ->with([
-                       'user' => $this->user,
-                   ]);
+        return $this->view('mails.user_deleted')
+            ->subject('User deleted from '.env('APP_NAME'))
+            ->with(
+                [
+                    'user' => $this->user,
+                ]
+            );
     }
 }
