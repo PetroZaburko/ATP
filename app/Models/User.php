@@ -2,11 +2,11 @@
 
 namespace App\Models;
 
+use App\Casts\UserNameCast;
 use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Notifications\Notifiable;
-use Illuminate\Support\Str;
 use Laravel\Sanctum\HasApiTokens;
 
 class User extends \TCG\Voyager\Models\User
@@ -45,6 +45,7 @@ class User extends \TCG\Voyager\Models\User
      */
     protected $casts = [
         'email_verified_at' => 'datetime',
+        'name' => UserNameCast::class,
     ];
 
     public $additional_attributes = [
@@ -52,16 +53,6 @@ class User extends \TCG\Voyager\Models\User
     ];
 
     protected $perPage = 20;
-
-    public function setNameAttribute($value)
-    {
-        $this->attributes['name'] = Str::lower($value);
-    }
-
-    public function getNameAttribute($value)
-    {
-        return Str::ucfirst($value);
-    }
 
     public function getFullNameAttribute()
     {
