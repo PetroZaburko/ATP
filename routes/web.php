@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\CandidateController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -20,4 +21,6 @@ Route::get('/', function () {
 Route::group(['prefix' => 'admin'], function () {
     Voyager::routes();
     Route::get('users', ['uses' => 'App\\Http\\Controllers\\Voyager\\VoyagerUserController@index', 'as' => 'voyager.users.index']);
+    Route::get('candidate', [CandidateController::class, 'index'])->name('candidate.index');
+    Route::post('candidate', [CandidateController::class, 'store'])->name('candidate.store');
 });
