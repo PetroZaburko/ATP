@@ -4,9 +4,11 @@ namespace App\Models;
 
 use App\Casts\UserNameCast;
 use Carbon\Carbon;
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Notifications\Notifiable;
+use Illuminate\Support\Facades\Auth;
 use Laravel\Sanctum\HasApiTokens;
 
 class User extends \TCG\Voyager\Models\User
@@ -67,5 +69,43 @@ class User extends \TCG\Voyager\Models\User
     public function checkAgeAbility()
     {
         return Carbon::parse($this->birth)->age <= config('atp.max_working_age');
+    }
+
+    public function isAdmin()
+    {
+        return $this->role->name == 'admin';
+    }
+
+    public function isManager()
+    {
+        return $this->role->name == 'manager';
+    }
+
+    public function isDriver()
+    {
+        return $this->role->name == 'driver';
+    }
+
+    public function scopeDrivers(Builder $query)
+    {
+        return $query->whereRelation('role', 'name', '=', 'driver');
+    }
+
+    public function scopeAdmins(Builder $query)
+    {
+        return $query->whereRelation('role', 'name', '=', 'admin');
+    }
+
+    public function scopeManagers(Builder $query)
+    {
+        return $query->whereRelation('role', 'name', '=', 'manager');
+    }
+
+    public function scopeUsers(Builder $query)
+    {
+        if (Auth::user()->isDriver()) {
+            return $query->where('id', Auth::id());
+        }
+        return $query;
     }
 }

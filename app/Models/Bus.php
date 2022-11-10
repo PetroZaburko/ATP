@@ -2,8 +2,10 @@
 
 namespace App\Models;
 
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Str;
 
 class Bus extends Model
@@ -31,5 +33,13 @@ class Bus extends Model
     public function brand()
     {
         return $this->belongsTo(Brand::class);
+    }
+
+    public function scopeBuses(Builder $query)
+    {
+        if (Auth::user()->isDriver()) {
+            return $query->where('user_id', Auth::id());
+        }
+        return $query;
     }
 }

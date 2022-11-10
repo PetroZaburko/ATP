@@ -25,7 +25,7 @@ class Kernel extends ConsoleKernel
      */
     protected function schedule(Schedule $schedule)
     {
-        $schedule->command('check:user-ability')->dailyAt('7:00');
+        $schedule->command('check:drivers-ability')->dailyAt('7:00');
     }
 
     /**

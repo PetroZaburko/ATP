@@ -16,14 +16,14 @@ class CheckUserAbilityCommand extends Command
      *
      * @var string
      */
-    protected $signature = 'check:user-ability';
+    protected $signature = 'check:drivers-ability';
 
     /**
      * The console command description.
      *
      * @var string
      */
-    protected $description = 'Check all users age ability';
+    protected $description = 'Check all drivers age ability';
 
     /**
      * Execute the console command.
@@ -32,7 +32,7 @@ class CheckUserAbilityCommand extends Command
      */
     public function handle()
     {
-        User::chunk(
+        User::drivers()->chunk(
             1000,
             function (Collection $group) {
                 $group->each(
