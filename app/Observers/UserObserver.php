@@ -3,6 +3,7 @@
 namespace App\Observers;
 
 use App\Jobs\SendEmailUserOnUserDeletedJob;
+use App\Models\Candidate;
 use App\Models\User;
 use Carbon\Carbon;
 use Illuminate\Support\Facades\Storage;
@@ -10,6 +11,18 @@ use Illuminate\Support\Facades\Storage;
 class UserObserver
 {
 
+    /**
+     * Handle the User "created" event.
+     *
+     * @param  User  $user
+     * @return void
+     */
+    public function created(User $user)
+    {
+        if ($candidate = Candidate::where('email', $user->email)->first()) {
+            $candidate->delete();
+        }
+    }
 
     /**
      * Handle the User "deleted" event.
